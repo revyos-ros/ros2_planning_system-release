@@ -1,3 +1,4 @@
+release_repo_url: git@github.com:revyos-ros/ros2_planning_system-release.git
 tracks:
   eloquent:
     actions:
