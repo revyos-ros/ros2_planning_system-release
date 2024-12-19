@@ -1,0 +1,193 @@
+ros-jazzy-plansys2-tools (2.0.15-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 Dec 2024 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.14-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 14 Nov 2024 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.13-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 06 Nov 2024 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.12-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 16 Oct 2024 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.9-1bookworm) bookworm; urgency=high
+
+  * Humble Upgrade
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 10 Jul 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.8-1bookworm) bookworm; urgency=high
+
+  * Add missing dependency
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 04 May 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 04 May 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.5-1bookworm) bookworm; urgency=high
+
+  * Fix package dep
+  * Contributors: Francisco Martín Rico, Jake Keller, Marco Roveri
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.4-1bookworm) bookworm; urgency=high
+
+  * Fix version
+  * Fix ROS2 Buildfarm error due to Threads
+  * Adding missing build dependencies
+  * Merge branch 'IntelligentRoboticsLabs:master' into master
+  * Contributors: Francisco Martín Rico, Jake Keller, Marco Roveri
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 03 May 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.3-1bookworm) bookworm; urgency=high
+
+  * Qt5 dependencies
+  * Contributors: Francisco Martín Rico
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Apr 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.2-1bookworm) bookworm; urgency=high
+
+  * Fixed compilation of main (working on galactic) to compile also on foxy
+  * RQT Plan viewer
+  * Logger tool - performers and plan
+  * Logger tool - knowledge, info and action hub
+  * Contributors: Francisco Martín Rico, Jake Keller, Marco Roveri
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 03 Apr 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 03 Feb 2022 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (2.0.0-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 04 Jul 2021 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.10-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sat, 03 Jul 2021 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.9-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 15 Mar 2021 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.8-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Fri, 12 Mar 2021 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 04 Jan 2021 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Tue, 29 Dec 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 28 Dec 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 24 Dec 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 19:46:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 23 Dec 2020 11:12:00 -0000
+
+ros-jazzy-plansys2-tools (1.0.1-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 19 Jul 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.7-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 26 Mar 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.6-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Mon, 23 Mar 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.5-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Sun, 12 Jan 2020 00:00:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.4-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 07:55:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Thu, 09 Jan 2020 07:11:00 -0000
+
+ros-jazzy-plansys2-tools (0.0.2-1bookworm) bookworm; urgency=high
+
+
+
+ -- Francisco Martin Rico <fmrico@gmail.com>  Wed, 08 Jan 2020 00:00:00 -0000
+
+
