@@ -34,7 +34,7 @@
 #include "plansys2_planner/PlannerClient.hpp"
 #include "plansys2_executor/ExecutorClient.hpp"
 #include "plansys2_executor/ActionExecutor.hpp"
-#include "plansys2_pddl_parser/Utils.h"
+#include "plansys2_pddl_parser/Utils.hpp"
 
 #include "plansys2_msgs/msg/action_performer_status.hpp"
 #include "plansys2_msgs/msg/action_execution.hpp"
@@ -51,12 +51,20 @@ std::vector<std::string> tokenize(const std::string & text)
     return {};
   }
 
-  std::vector<std::string> ret;
+  std::string text_wo_nlines = text;
   size_t start = 0, end = 0;
-
   while (end != std::string::npos) {
-    end = text.find(" ", start);
-    ret.push_back(text.substr(start, (end == std::string::npos) ? std::string::npos : end - start));
+    end = text_wo_nlines.find("\n", start);
+    text_wo_nlines =
+      text_wo_nlines.substr(0, (end == std::string::npos) ? std::string::npos : end);
+  }
+
+  std::vector<std::string> ret;
+  start = 0, end = 0;
+  while (end != std::string::npos) {
+    end = text_wo_nlines.find(" ", start);
+    ret.push_back(
+      text_wo_nlines.substr(start, (end == std::string::npos) ? std::string::npos : end - start));
     start = ((end > (std::string::npos - 1)) ? std::string::npos : end + 1);
   }
   return ret;
@@ -87,7 +95,7 @@ char * completion_generator(const char * text, int state)
   std::vector<std::string> vocabulary_run{"action", "num_actions", "plan-file"};
   std::vector<std::string> vocabulary_get_problem{"instances", "predicates", "functions", "goal"};
   std::vector<std::string> vocabulary_get_model{"types", "predicates", "functions", "actions",
-    "predicate", "function", "action"};
+    "predicate", "function", "action", "derived", "deriveds"};
   // The help is initialized with all possible commands in the vocabulary
   std::vector<std::string> vocabulary_help(vocabulary);
 
@@ -246,6 +254,7 @@ void Terminal::add_problem()
   }
 }
 
+
 // LCOV_EXCL_START
 void
 Terminal::run_console()
@@ -261,24 +270,30 @@ Terminal::run_console()
 
   bool finish = false;
   while (!finish) {
-    char * line = readline("> ");
+    char * input_line = readline("> ");
 
-    if (line == NULL || (strcmp(line, "quit") == 0)) {
+    if (input_line == NULL || (strcmp(input_line, "quit") == 0)) {
       finish = true;
-    }
+    } else {
+      std::istringstream iss({std::string(input_line)});
+      std::string line;
 
-    if (strlen(line) > 0) {
-      add_history(line);
+      free(input_line);
 
-      std::string line_str(line);
-      free(line);
+      while (std::getline(iss, line)) {
+        if (!line.empty()) {
+          add_history(line.c_str());
 
-      if (!finish) {
-        clean_command(line_str);
+          std::string line_str(line);
 
-        std::ostringstream os;
-        process_command(line_str, os, false);
-        std::cout << os.str();
+          if (!finish) {
+            clean_command(line_str);
+
+            std::ostringstream os;
+            process_command(line_str, os, false);
+            std::cout << os.str();
+          }
+        }
       }
     }
   }
@@ -317,6 +332,30 @@ Terminal::process_get_model_predicate(std::vector<std::string> & command, std::o
       for (size_t i = 0; i < predicates.value().parameters.size(); i++) {
         os << "\t" << predicates.value().parameters[i].type << " - " <<
           predicates.value().parameters[i].name << std::endl;
+      }
+    } else {
+      os << "Error when looking for params of " << command[0] << std::endl;
+    }
+  } else {
+    os << "\tUsage: \n\t\tget model predicate [predicate_name]" << std::endl;
+  }
+}
+
+void
+Terminal::process_get_model_derived_predicate(
+  std::vector<std::string> & command, std::ostringstream & os)
+{
+  if (command.size() == 1) {
+    auto deriveds = domain_client_->getDerivedPredicate(command[0]);
+    if (deriveds.size() > 0) {
+      for (auto derived : deriveds) {
+        os << "Parameters: " << derived.predicate.parameters.size() << std::endl;
+        for (size_t i = 0; i < derived.predicate.parameters.size(); i++) {
+          os << "\t" << derived.predicate.parameters[i].type << " - " <<
+            derived.predicate.parameters[i].name << std::endl;
+        }
+        os << "Preconditions: " << parser::pddl::toString(derived.preconditions) << std::endl;
+        os << "\n";
       }
     } else {
       os << "Error when looking for params of " << command[0] << std::endl;
@@ -403,6 +442,13 @@ Terminal::process_get_model(std::vector<std::string> & command, std::ostringstre
       for (const auto & predicate : predicates) {
         os << "\t" << predicate.name << std::endl;
       }
+    } else if (command[0] == "deriveds") {
+      auto predicates = domain_client_->getDerivedPredicates();
+
+      os << "Derived predicates: " << predicates.size() << std::endl;
+      for (const auto & predicate : predicates) {
+        os << "\t" << predicate.name << std::endl;
+      }
     } else if (command[0] == "functions") {
       auto functions = domain_client_->getFunctions();
 
@@ -424,6 +470,9 @@ Terminal::process_get_model(std::vector<std::string> & command, std::ostringstre
     } else if (command[0] == "predicate") {
       pop_front(command);
       process_get_model_predicate(command, os);
+    } else if (command[0] == "derived") {
+      pop_front(command);
+      process_get_model_derived_predicate(command, os);
     } else if (command[0] == "function") {
       pop_front(command);
       process_get_model_function(command, os);
@@ -432,13 +481,15 @@ Terminal::process_get_model(std::vector<std::string> & command, std::ostringstre
       process_get_model_action(command, os);
     } else {
       os <<
-        "\tUsage: \n\t\tget model [types|predicates|functions|actions|predicate|function|action]..."
+        "\tUsage: \n\t\tget model "
+        "[types|predicates|functions|actions|predicate|function|action|derived|deriveds]..."
          <<
         std::endl;
     }
   } else {
     os <<
-      "\tUsage: \n\t\tget model [types|predicates|functions|actions|predicate|function|action]..."
+      "\tUsage: \n\t\tget model "
+      "[types|predicates|functions|actions|predicate|function|action|derived|deriveds]..."
        <<
       std::endl;
   }
@@ -747,7 +798,7 @@ Terminal::process_remove(std::vector<std::string> & command, std::ostringstream 
     } else if (command[0] == "function") {
       pop_front(command);
       process_remove_function(command, os);
-    } else if (command[0] == "goal", os) {
+    } else if (command[0] == "goal") {
       problem_client_->clearGoal();
     } else {
       os << "\tUsage: \n\t\tremove [instance|predicate|function|goal]..." <<

@@ -2,6 +2,36 @@
 Changelog for package plansys2_bt_actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* Remove cmake warning
+* Removed some small references still related to the old version of BehaviorTree
+* Bump Behaviortree.CPP v3 to v4
+* fix code style issues with uncrustify
+* Update BTAction.cpp
+* fix groot enabling
+* Linting
+* Fix logger destruction at BTActions
+* Update Changelog
+* Insert in blackboard the action ROS 2 Node
+* Insert in blackboard the action ROS 2 Node
+* Correct tick function call in bt_actions test
+* Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
+* Explicitly ignore feedback in default on_feedback
+* Add try/catch to bt creation, reset loggers
+* Contributors: Andrianov Roman, Francisco Martín Rico, Jake Keller, Marco Roveri, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Add BT logging, Tree execution try/catch, and README

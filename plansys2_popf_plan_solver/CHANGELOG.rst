@@ -2,6 +2,34 @@
 Changelog for package plansys2_popf_plan_solver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+
+2.0.12 (2024-10-16)
+-------------------
+* adjust prints and utils
+* Integrated feedback, and fixes to have tests to pass
+* Added support for configuring the planner timeout
+* Add unit tests
+* Do not segfault with filesystem errors in POPF, and allow ~ for home directory
+* Add option to use planner node to validate domain in domain expert
+* Configure POPF solver in domain expert
+* Add ability to specify output folder in POPF planner
+* Remove reference to SharedPtr
+* Fix is_valid_domain by parsing out file
+* bt-builder-plugins: Creating BT builder plugin interface. Moving current BT builder to plugin named SimpleBTBuilder. Adding new and improved STN-based BT builder plugin named STNBTBuilder.
+* Fix problem in is_valid_domain function
+* add status check into popf_plan_solver
+* add system status check
+* Remove reference to SharedPtr
+* Contributors: Andrianov Roman, Francisco Martín Rico, Gustavo, Jake Keller, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade

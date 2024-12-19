@@ -2,6 +2,32 @@
 Changelog for package plansys2_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* Add parameter for timeout of plan solver
+* Added support for configuring the planner timeout
+* Remove cmake warning
+* Restore tests and enable warnings
+* Use separate problem pddl for problem expert.
+* Simplifying bound checkin logic.
+* Change double quotes for simple ones (linter)
+* Make explicit which BTCreator is being used
+* bt-builder-plugins: Setting default BT builder plugin to SimpleBTBuilder.
+* bt-builder-plugins: Creating BT builder plugin interface. Moving current BT builder to plugin named SimpleBTBuilder. Adding new and improved STN-based BT builder plugin named STNBTBuilder.
+* revert if statement
+* Contributors: Francisco Martín Rico, Josh Zapf, Marco Roveri, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Expose lifecyclemanager timeout as a parameter, other misc fixes/features

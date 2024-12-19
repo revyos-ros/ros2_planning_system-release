@@ -277,8 +277,7 @@ TEST_F(TerminalTestCase, load_popf_plugin)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 16, true);
-  ASSERT_GT(exe.get_number_of_threads(), 15u);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -606,8 +605,7 @@ TEST_F(TerminalTestCase, add_problem)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 16, true);
-  ASSERT_GT(exe.get_number_of_threads(), 15u);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -721,8 +719,7 @@ TEST_F(TerminalTestCase, add_problem_empty_domain)
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 16, true);
-  ASSERT_GT(exe.get_number_of_threads(), 15u);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -820,25 +817,16 @@ TEST_F(TerminalTestCase, check_actors)
   auto charge_actor_1_node = plansys2::ActionExecutorClient::make_shared("charge", 100ms);
 
   move_actor_1_node->set_parameter({"action_name", "move"});
-  move_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
-
   move_actor_2_node->set_parameter({"action_name", "move"});
-  move_actor_2_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
-
   ask_charge_actor_1_node->set_parameter({"action_name", "askcharge"});
-  ask_charge_actor_1_node->trigger_transition(
-    lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
-
   charge_actor_1_node->set_parameter({"action_name", "charge"});
-  charge_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_terminal");
 
   domain_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
   problem_node->set_parameter({"model_file", pkgpath + "/pddl/simple_example.pddl"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 16, true);
-  ASSERT_GT(exe.get_number_of_threads(), 15u);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -866,10 +854,35 @@ TEST_F(TerminalTestCase, check_actors)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
+    while ((test_node->now() - start).seconds() < 1.5) {
       rate.sleep();
     }
   }
+
+  ASSERT_EQ(
+    domain_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    problem_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    planner_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    executor_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    move_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    move_actor_2_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    ask_charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
@@ -883,10 +896,36 @@ TEST_F(TerminalTestCase, check_actors)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 1.0) {
+    while ((test_node->now() - start).seconds() < 1.5) {
       rate.sleep();
     }
   }
+
+  ASSERT_EQ(
+    domain_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    problem_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    planner_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    executor_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    move_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    move_actor_2_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    ask_charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+
 
   auto terminal_node = std::make_shared<TerminalTest>();
   terminal_node->init();
@@ -924,12 +963,8 @@ TEST_F(TerminalTestCase, source_run_plan)
   auto charge_actor_1_node = std::make_shared<ActT>("charge");
 
   move_actor_1_node->set_parameter({"action_name", "move"});
-  move_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   ask_charge_actor_1_node->set_parameter({"action_name", "askcharge"});
-  ask_charge_actor_1_node->trigger_transition(
-    lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
   charge_actor_1_node->set_parameter({"action_name", "charge"});
-  charge_actor_1_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
   std::string pkgpath = ament_index_cpp::get_package_share_directory("plansys2_terminal");
 
@@ -939,8 +974,7 @@ TEST_F(TerminalTestCase, source_run_plan)
   std::string cmd_file = pkgpath + "/pddl/commands";
   std::string plan_file = pkgpath + "/pddl/plan";
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 16, true);
-  ASSERT_GT(exe.get_number_of_threads(), 15u);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -968,10 +1002,32 @@ TEST_F(TerminalTestCase, source_run_plan)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
+    while ((test_node->now() - start).seconds() < 1.5) {
       rate.sleep();
     }
   }
+
+  ASSERT_EQ(
+    domain_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    problem_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    planner_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    executor_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    move_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    ask_charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
 
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
@@ -985,10 +1041,32 @@ TEST_F(TerminalTestCase, source_run_plan)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 1.0) {
+    while ((test_node->now() - start).seconds() < 2.0) {
       rate.sleep();
     }
   }
+
+  ASSERT_EQ(
+    domain_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    problem_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    planner_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    executor_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE);
+  ASSERT_EQ(
+    move_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    ask_charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
+  ASSERT_EQ(
+    charge_actor_1_node->get_current_state().id(),
+    lifecycle_msgs::msg::State::PRIMARY_STATE_INACTIVE);
 
   auto terminal_node = std::make_shared<TerminalTest>();
   terminal_node->init();
@@ -1044,7 +1122,7 @@ TEST_F(TerminalTestCase, source_run_plan)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
+    while ((test_node->now() - start).seconds() < 1.5) {
       rate.sleep();
     }
   }
@@ -1057,7 +1135,7 @@ TEST_F(TerminalTestCase, source_run_plan)
   {
     rclcpp::Rate rate(10);
     auto start = test_node->now();
-    while ((test_node->now() - start).seconds() < 0.5) {
+    while ((test_node->now() - start).seconds() < 1.5) {
       rate.sleep();
     }
   }

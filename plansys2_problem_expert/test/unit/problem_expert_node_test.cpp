@@ -52,7 +52,7 @@ TEST(problem_expert_node, addget_instances)
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -63,7 +63,7 @@ TEST(problem_expert_node, addget_instances)
   auto knowledge_sub = test_node_2->create_subscription<plansys2_msgs::msg::Knowledge>(
     "problem_expert/knowledge", rclcpp::QoS(100).transient_local(),
     [&last_knowledge_msg, &knowledge_msg_counter]
-      (const plansys2_msgs::msg::Knowledge::SharedPtr msg) {
+    (const plansys2_msgs::msg::Knowledge::SharedPtr msg) {
       last_knowledge_msg = *msg;
       knowledge_msg_counter++;
     });
@@ -74,7 +74,7 @@ TEST(problem_expert_node, addget_instances)
     });
 
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("Paco", "person")));
-  ASSERT_FALSE(problem_client->addInstance(plansys2::Instance("Paco", "person")));
+  ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("Paco", "person")));
   ASSERT_FALSE(problem_client->addInstance(plansys2::Instance("Paco", "SCIENTIFIC")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("bedroom", "room")));
   ASSERT_TRUE(problem_client->addInstance(plansys2::Instance("kitchen", "room")));
@@ -87,7 +87,7 @@ TEST(problem_expert_node, addget_instances)
     }
   }
 
-  ASSERT_EQ(knowledge_msg_counter, 3u);
+  ASSERT_EQ(knowledge_msg_counter, 4u);
   ASSERT_EQ(last_knowledge_msg.instances.size(), 3u);
   ASSERT_EQ(last_knowledge_msg.instances[0], "Paco");
   ASSERT_EQ(last_knowledge_msg.instances[1], "bedroom");
@@ -105,7 +105,7 @@ TEST(problem_expert_node, addget_instances)
     }
   }
 
-  ASSERT_EQ(knowledge_msg_counter, 4u);
+  ASSERT_EQ(knowledge_msg_counter, 5u);
   ASSERT_EQ(last_knowledge_msg.instances.size(), 4u);
   ASSERT_EQ(last_knowledge_msg.instances[0], "Paco");
   ASSERT_EQ(last_knowledge_msg.instances[1], "bedroom");
@@ -141,7 +141,7 @@ TEST(problem_expert_node, addget_instances)
     }
   }
 
-  ASSERT_EQ(knowledge_msg_counter, 5u);
+  ASSERT_EQ(knowledge_msg_counter, 6u);
   ASSERT_EQ(last_knowledge_msg.instances.size(), 3u);
   ASSERT_EQ(last_knowledge_msg.instances[0], "bedroom");
   ASSERT_EQ(last_knowledge_msg.instances[1], "kitchen");
@@ -173,7 +173,7 @@ TEST(problem_expert_node, addget_instances)
     }
   }
 
-  ASSERT_EQ(knowledge_msg_counter, 7u);
+  ASSERT_EQ(knowledge_msg_counter, 8u);
   ASSERT_EQ(last_knowledge_msg.instances.size(), 3u);
   ASSERT_EQ(last_knowledge_msg.instances[0], "bedroom");
   ASSERT_EQ(last_knowledge_msg.instances[1], "kitchen");
@@ -193,7 +193,7 @@ TEST(problem_expert_node, addget_instances)
     }
   }
 
-  ASSERT_EQ(knowledge_msg_counter, 8u);
+  ASSERT_EQ(knowledge_msg_counter, 9u);
   ASSERT_EQ(last_knowledge_msg.instances[0], "bedroom");
   ASSERT_EQ(last_knowledge_msg.instances[1], "kitchen");
   ASSERT_EQ(last_knowledge_msg.instances[2], "r2d2");
@@ -592,7 +592,7 @@ TEST(problem_expert_node, addget_goal_is_satisfied)
   domain_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
   problem_node->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_ACTIVATE);
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(domain_node->get_node_base_interface());
   exe.add_node(problem_node->get_node_base_interface());
@@ -603,7 +603,7 @@ TEST(problem_expert_node, addget_goal_is_satisfied)
   auto knowledge_sub = test_node_2->create_subscription<plansys2_msgs::msg::Knowledge>(
     "problem_expert/knowledge", rclcpp::QoS(100).transient_local(),
     [&last_knowledge_msg, &knowledge_msg_counter]
-      (const plansys2_msgs::msg::Knowledge::SharedPtr msg) {
+    (const plansys2_msgs::msg::Knowledge::SharedPtr msg) {
       last_knowledge_msg = *msg;
       knowledge_msg_counter++;
     });

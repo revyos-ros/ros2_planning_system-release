@@ -2,6 +2,24 @@
 Changelog for package plansys2_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+
+2.0.12 (2024-10-16)
+-------------------
+* Integrated feedback, and fixes to have tests to pass
+* Added support for configuring the planner timeout
+* Remove cmake warning
+* Add option to use planner node to validate domain in domain expert
+* Remove reference to SharedPtr
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 

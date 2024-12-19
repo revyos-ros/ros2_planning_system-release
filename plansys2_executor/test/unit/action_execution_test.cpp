@@ -36,10 +36,10 @@
 #include "plansys2_executor/ExecutorClient.hpp"
 #include "plansys2_problem_expert/Utils.hpp"
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/utils/shared_library.h"
-#include "behaviortree_cpp_v3/blackboard.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/utils/shared_library.h"
+#include "behaviortree_cpp/blackboard.h"
 
 #include "plansys2_executor/behavior_tree/execute_action_node.hpp"
 #include "plansys2_executor/behavior_tree/wait_action_node.hpp"
@@ -125,7 +125,7 @@ TEST(action_execution, protocol_basic)
 
   move_action_node->set_parameter({"action_name", "move"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(test_node);
   exe.add_node(test_lf_node->get_node_base_interface());
@@ -240,7 +240,7 @@ TEST(action_execution, protocol_cancelation)
 
   move_action_node->set_parameter({"action_name", "move"});
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   exe.add_node(test_node);
   exe.add_node(test_lf_node->get_node_base_interface());

@@ -2,6 +2,23 @@
 Changelog for package plansys2_lifecycle_manager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* lifecycle_manager: activate planner first
+* Remove cmake warning
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade

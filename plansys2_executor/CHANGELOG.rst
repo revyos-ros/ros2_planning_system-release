@@ -2,6 +2,84 @@
 Changelog for package plansys2_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+* Fixing Eigen dep
+* Contributors: Francisco Martín Rico
+
+2.0.14 (2024-11-14)
+-------------------
+* Add Eigen depends in package.xml
+* Contributors: Francisco Martín Rico
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* add ActionVariant
+* execute regular actions
+* Remove cmake warning
+* Fix ccplinti and uncrustify
+* fail execute_plan action if initial conditions changed
+  We terminate the program is many senarios instead of just returning an
+  explict value. We used to terminate if the initial conditions changed
+  before the plan is started. Now just send a result that the action
+  server failed to execute the plan
+* Send Cancelation response to ActionClient
+* ExecutorNode, remove unused ros node
+* Removed some small references still related to the old version of BehaviorTree
+* Bump Behaviortree.CPP v3 to v4 - fix executor test
+* Fix Timeout BT Node
+* Adding imports to stn builder
+* Fixing line-length
+* Adding duration to dotgraphs.
+* Restore tests and enable warnings
+* Revert STN changes in Executor BT
+* Removing unused or commented out code.
+* Updating ComputeBT.cpp.
+* Fix Terminal and executor bugs
+* Fixing bug in propagation step.
+* Adding dependency on eigen3_cmake_module to plansys2_executor.
+* Fixing min time bounds in STN to adhere to plan times.
+* Adding some print statements to help with debugging.
+* Saving progress.
+* Removing unused code. Debuggin get_threat function.
+* Simplifying bound checkin logic.
+* Update and propagate time constraints after applying effects.
+* Adding action graph to blackboard.
+* Moving STNBTBuilder node and graph structures to parent class.
+* Ensure that every start node has direct link to end node in BT.
+* Change MultiThreaded for SingleThreaded in CI failing tests
+* Change double quotes for simple ones (linter)
+* Insert in blackboard the action ROS 2 Node
+* Adding Eigen3 dependency to plansys2_executor.
+* Removing redundant get_current_time function.
+* Fixing RCLCPP_ERROR message bug.
+* Fixing colcon build warning.
+* Fixing colcon build warnings.
+* Cleaning up code for merge request.
+* Cleaning up changes.
+* Match example is now working!
+* Modified BT by hand to get plan to succeed.
+* BT not finishing.
+* Fixing bug with updating STN time bounds.
+* Adding time propagation step.
+* Don't check time limits on start-end connections.
+* Supporting time-triggered execution.
+* Checking for self-referencing edges in STNBTBuilder. Adding standalone compute_bt service.
+* bt-builder-plugins: Setting default BT builder plugin to SimpleBTBuilder.
+* bt-builder-plugins: Creating BT builder plugin interface. Moving current BT builder to plugin named SimpleBTBuilder. Adding new and improved STN-based BT builder plugin named STNBTBuilder.
+* Check at end reqs in bt builder
+* Change MultiThreaded for SingleThreaded in CI failing tests
+* Insert in blackboard the action ROS 2 Node
+* Checking for self-referencing edges in STNBTBuilder. Adding standalone compute_bt service.
+* bt-builder-plugins: Setting default BT builder plugin to SimpleBTBuilder.
+* bt-builder-plugins: Creating BT builder plugin interface. Moving current BT builder to plugin named SimpleBTBuilder. Adding new and improved STN-based BT builder plugin named STNBTBuilder.
+* Contributors: Alexander Xydes, Andrianov Roman, Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Mostafa Gomaa, Samuele Sandrini, Splinter1984, robodrome
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade

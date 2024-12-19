@@ -18,9 +18,9 @@
 #include <iostream>
 #include <fstream>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "behaviortree_cpp_v3/utils/shared_library.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/utils/shared_library.h"
 
 #include "../behavior_tree/OpenGripper.hpp"
 #include "../behavior_tree/CloseGripper.hpp"
@@ -69,6 +69,7 @@ private:
     const rclcpp_action::GoalUUID & uuid,
     std::shared_ptr<const Fibonacci::Goal> goal)
   {
+    RCLCPP_DEBUG(get_logger(), "handle_goal");
     return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
   }
 
@@ -81,6 +82,7 @@ private:
 
   void handle_accepted(const std::shared_ptr<GoalHandleFibonacci> goal_handle)
   {
+    RCLCPP_DEBUG(get_logger(), "handle_accepted");
     std::thread{std::bind(&MoveServer::execute, this, _1), goal_handle}.detach();
   }
 
@@ -91,6 +93,7 @@ private:
     int counter = 0;
     rclcpp::Rate rate(10);
     while (rclcpp::ok() && counter++ < 50 && !cancelled_) {  // 5 secs
+      RCLCPP_DEBUG(get_logger(), "execute");
       goal_handle->publish_feedback(feedback);
       rate.sleep();
     }
@@ -108,13 +111,16 @@ private:
 
 TEST(bt_actions, load_plugins)
 {
-  auto node = rclcpp::Node::make_shared("load_plugins_node");
+  auto node = rclcpp_lifecycle::LifecycleNode::make_shared("load_plugins_node");
   auto move_server_node = std::make_shared<MoveServer>();
   move_server_node->start_server();
 
   bool finish = false;
   std::thread t([&]() {
-      while (!finish) {rclcpp::spin_some(move_server_node);}
+      while (!finish) {
+        rclcpp::spin_some(move_server_node);
+        rclcpp::spin_some(node->get_node_base_interface());
+      }
     });
 
   BT::BehaviorTreeFactory factory;
@@ -145,17 +151,20 @@ TEST(bt_actions, load_plugins)
 
 TEST(bt_actions, on_tick_failure)
 {
-  auto node = rclcpp::Node::make_shared("test_node");
+  auto node = rclcpp_lifecycle::LifecycleNode::make_shared("test_node");
   auto move_server_node = std::make_shared<MoveServer>();
   move_server_node->start_server();
 
   bool finished = false;
   std::thread t([&]() {
-      while (!finished) {rclcpp::spin_some(move_server_node);}
+      while (!finished) {
+        rclcpp::spin_some(move_server_node);
+        rclcpp::spin_some(node->get_node_base_interface());
+      }
     });
 
 
-  BT::NodeConfiguration config;
+  BT::NodeConfig config;
   BT::assignDefaultRemapping<plansys2_bt_tests::OnTickFail>(config);
   auto bb = BT::Blackboard::create();
   bb->set("node", node);
@@ -167,9 +176,7 @@ TEST(bt_actions, on_tick_failure)
 
   BT::NodeStatus status = BT::NodeStatus::RUNNING;
   while (rclcpp::ok() && status == BT::NodeStatus::RUNNING) {
-    status = failure_node.tick();
-
-    rclcpp::spin_some(node);
+    status = failure_node.executeTick();
     rate.sleep();
   }
 
@@ -182,16 +189,19 @@ TEST(bt_actions, on_tick_failure)
 
 TEST(bt_actions, on_feedback_failure)
 {
-  auto node = rclcpp::Node::make_shared("test_node");
+  auto node = rclcpp_lifecycle::LifecycleNode::make_shared("test_node");
   auto move_server_node = std::make_shared<MoveServer>();
   move_server_node->start_server();
 
   bool finished = false;
   std::thread t([&]() {
-      while (!finished) {rclcpp::spin_some(move_server_node);}
+      while (!finished) {
+        rclcpp::spin_some(move_server_node);
+        rclcpp::spin_some(node->get_node_base_interface());
+      }
     });
 
-  BT::NodeConfiguration config;
+  BT::NodeConfig config;
   BT::assignDefaultRemapping<plansys2_bt_tests::OnFeedbackFail>(config);
   auto bb = BT::Blackboard::create();
   bb->set("node", node);
@@ -205,9 +215,7 @@ TEST(bt_actions, on_feedback_failure)
 
   BT::NodeStatus status = BT::NodeStatus::RUNNING;
   while (rclcpp::ok() && status == BT::NodeStatus::RUNNING) {
-    status = failure_node.tick();
-
-    rclcpp::spin_some(node);
+    status = failure_node.executeTick();
     rate.sleep();
   }
 
@@ -237,7 +245,7 @@ TEST(bt_actions, bt_action)
 
   bt_action->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  rclcpp::executors::MultiThreadedExecutor exe;
+  rclcpp::experimental::executors::EventsExecutor exe;
   exe.add_node(bt_action->get_node_base_interface());
   exe.add_node(lc_node->get_node_base_interface());
 
@@ -274,7 +282,7 @@ TEST(bt_actions, cancel_bt_action)
 
   bt_action->trigger_transition(lifecycle_msgs::msg::Transition::TRANSITION_CONFIGURE);
 
-  rclcpp::executors::MultiThreadedExecutor exe;
+  rclcpp::experimental::executors::EventsExecutor exe;
   exe.add_node(bt_action->get_node_base_interface());
   exe.add_node(lc_node->get_node_base_interface());
 

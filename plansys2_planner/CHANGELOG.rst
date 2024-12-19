@@ -2,6 +2,26 @@
 Changelog for package plansys2_planner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* Integrated feedback, and fixes to have tests to pass
+* Added support for configuring the planner timeout
+* Spin up temporary node for domain validation
+* Add option to use planner node to validate domain in domain expert
+* Minor changes to the tests to comply with some change in the generated output
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade

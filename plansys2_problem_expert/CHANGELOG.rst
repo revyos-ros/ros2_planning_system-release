@@ -2,6 +2,41 @@
 Changelog for package plansys2_problem_expert
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+* Change to EventsExecutor
+* Contributors: Francisco Martín Rico
+
+2.0.12 (2024-10-16)
+-------------------
+* evaluate exists use_state==false
+* evaluate exsits w/ problem_client
+* add replace_children_param
+* return derived predicates in getPredicates
+* add cart_produdct and replace_children_param
+* fix bug in ParamExpression getTree
+* support for ParamExpression and ConstExpression
+* add test for negated comp expression
+* negate evaluation of comp expression
+* add test problem_expert.exist_precidate
+* in existPredicate check if derived predicate is satisfied
+* Fixed support for constants in predicates/functions/goals
+* Make problemExpert case-insensitive to Instance types
+* Use separate problem pddl for problem expert.
+* Minor changes to the tests to comply with some change in the generated output
+* Fixed some errors and some tests to comply with the revised output
+* Fixed support for the complex goal parsing both from the terminal and from file
+* Minor changes to the tests to comply with some change in the generated output
+* Check instance types and associated tests
+* Fixed support for the complex goal parsing both from the terminal and from file
+* Contributors: Ashton Larkin, Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Mostafa Gomaa, Splinter1984, adfea625
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade

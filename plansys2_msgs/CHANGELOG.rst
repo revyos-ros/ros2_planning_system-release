@@ -2,6 +2,23 @@
 Changelog for package plansys2_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+
+2.0.12 (2024-10-16)
+-------------------
+* add uint8 EXISTS = 10 to Node.msg
+* support for ParamExpression and ConstExpression
+* add Derived.msg and GetDomainDerivedPredicateDetails.srv
+* Add option to use planner node to validate domain in domain expert
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Robodrome, Sebastian Castro
+
 2.0.9 (2022-07-10)
 ------------------
 

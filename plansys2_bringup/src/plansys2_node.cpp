@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
 
   rclcpp::init(argc, argv);
 
-  rclcpp::executors::MultiThreadedExecutor exe(rclcpp::ExecutorOptions(), 8);
+  rclcpp::experimental::executors::EventsExecutor exe;
 
   auto domain_node = std::make_shared<plansys2::DomainExpertNode>();
   auto problem_node = std::make_shared<plansys2::ProblemExpertNode>();
@@ -64,15 +64,15 @@ int main(int argc, char ** argv)
     std::bind(plansys2::startup_function, manager_nodes, std::chrono::seconds(5)));
   exe.spin_until_future_complete(startup_future);
 
-  if (startup_future.get()) {
-    exe.spin();
-    rclcpp::shutdown();
-    return 0;
-  } else {
+  if (!startup_future.get()) {
     RCLCPP_ERROR(
       rclcpp::get_logger("plansys2_bringup"),
       "Failed to start plansys2!");
     rclcpp::shutdown();
     return -1;
   }
+
+  exe.spin();
+  rclcpp::shutdown();
+  return 0;
 }

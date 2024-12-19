@@ -2,6 +2,51 @@
 Changelog for package plansys2_pddl_parser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.15 (2024-12-03)
+-------------------
+
+2.0.14 (2024-11-14)
+-------------------
+
+2.0.13 (2024-11-06)
+-------------------
+
+2.0.12 (2024-10-16)
+-------------------
+* fix Exists print
+* add fromStringExists
+* adjust toStringExists
+* fix Exists parse
+* add test for Exists::getTree
+* adjust prints and utils
+* adjust Ground getTree
+* add exists getTree
+* fix exists parse
+* add :existential-preconditions requirement
+* fix bug in ParamExpression getTree
+* fix ParamExpression PDDLPrint
+* support for ParamExpression and ConstExpression
+* adjust toString for negated comp expression
+* support negation of CompositeExpression
+* include "object" in getType
+* Fixed errors that prevented all the tests to pass
+* Remove cmake warning
+* Fixed the regexps in getNodeType function
+* Added proper support for constants in the goal
+* Slightly changed order of printing
+* pddl_parser. Fix support for disjunctive-preconditions
+* Add forall and imply to PDDL parsing test
+* Remove commented out debug stuff
+* Add Imply to PDDL domain parsing
+* fix regex for 'and' and 'or'
+* fix regex for NOT
+* Removed debug code
+* Fixed support for complex goals and other changes
+* Fixed some errors and some tests to comply with the revised output
+* Merge remote-tracking branch 'origin/master' into fix_goal_structure_issue_205
+* Fixed support for the complex goal parsing both from the terminal and from file
+* Contributors: Francisco Martín Rico, Gustavo, Josh Zapf, Marco Roveri, Mostafa Gomaa, Paul Gesel, Sebastian Castro, Splinter1984
+
 2.0.9 (2022-07-10)
 ------------------
 * Humble Upgrade
